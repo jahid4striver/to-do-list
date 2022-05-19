@@ -8,7 +8,7 @@ const Home = () => {
         fetch('http://localhost:5000/works')
             .then(res => res.json())
             .then(data => setWorks(data));
-    }, [])
+    }, [works])
 
 
     const handleWork = e => {
