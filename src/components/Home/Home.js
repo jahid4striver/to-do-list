@@ -1,14 +1,19 @@
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
 import WorkTable from '../WorkTable';
 
 const Home = () => {
     const [works, setWorks] = useState([])
+    const [user, loading] = useAuthState(auth);
+
 
     useEffect(() => {
-        fetch('http://localhost:5000/works')
+        fetch('https://my-to-do-list-work.herokuapp.com/works')
             .then(res => res.json())
             .then(data => setWorks(data));
-    }, [works])
+    }, [works, setWorks])
 
 
     const handleWork = e => {
@@ -17,7 +22,7 @@ const Home = () => {
         const description = e.target.description.value;
         const work = { task, description };
 
-        fetch('http://localhost:5000/works', {
+        fetch('https://my-to-do-list-work.herokuapp.com/works', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -30,9 +35,17 @@ const Home = () => {
                 e.target.reset();
             })
     }
+
+   const handleLogout=()=>{
+    signOut(auth)
+   }
     return (
         <div>
+            {
+                user? <button onClick={handleLogout} className='my-8 btn btn-warning'>Logout</button>:''
+            }
             <h2 className='my-8 text-3xl text-primary text-center'>To Do List</h2>
+
 
             <form onSubmit={handleWork} className=''>
                 <input type="text" name='task' placeholder="Task Name" class="mr-0 lg:mr-4 mb-4 input input-bordered w-full max-w-xs" />

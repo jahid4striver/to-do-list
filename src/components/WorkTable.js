@@ -11,7 +11,7 @@ const WorkTable = ({ work }) => {
     const handleDelete = (id) => {
         const procced = window.confirm('Are You Sure Want to Delete')
         if (procced) {
-            fetch(`http://localhost:5000/works/${id}`, {
+            fetch(`https://my-to-do-list-work.herokuapp.com/works/${id}`, {
                 method: 'DELETE',
             })
             .then(res=> res.json())
